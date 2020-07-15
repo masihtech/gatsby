@@ -93,6 +93,7 @@ module.exports = async function (content) {
   const {
     getNode: rawGetNode,
     getNodes,
+    getNodesByType,
     reporter,
     cache,
     pathPrefix,
@@ -120,11 +121,13 @@ module.exports = async function (content) {
 
   let mdxNode
   try {
-    mdxNode = await createMDXNode({
+    ;({ mdxNode } = await createMDXNode({
       id: `fakeNodeIdMDXFileABugIfYouSeeThis`,
       node: fileNode,
       content,
-    })
+      options,
+      getNodesByType,
+    }))
   } catch (e) {
     return callback(e)
   }
@@ -168,6 +171,7 @@ ${contentWithoutFrontmatter}`
     node: { ...mdxNode, rawBody: code },
     getNode,
     getNodes,
+    getNodesByType,
     reporter,
     cache,
     pathPrefix,
